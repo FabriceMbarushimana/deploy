@@ -1,6 +1,9 @@
 TravelBook
 
 API key fdf344faefmshddcdc140947d28ep1a6d12jsn6ba38bb73916 
+
+
+
 A simple, user-friendly hotel recommendation platform built with HTML, CSS, and JavaScript, powered by the Booking.COM API via RapidAPI. The app allows users to search for hotels by city, view live pricing and ratings, and sort/filter results—all wrapped in a clean and responsive UI.
 
 This project includes:
