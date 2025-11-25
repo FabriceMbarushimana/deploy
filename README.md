@@ -22,7 +22,7 @@ The project leverages external APIs for data fetching and is deployed across two
 - Interactive UI with filtering, sorting, and search functionality
 
 ### Technical Features
-- External API integration (API key in config.js)
+- External API integration (API key in API_Key.js)
 - Deployed on two web servers (Web01 & Web02) with load balancer (Lb01)
 - Fully responsive design (desktop, tablet, mobile)
 - Clean Airbnb-inspired UI design
@@ -31,7 +31,7 @@ The project leverages external APIs for data fetching and is deployed across two
 
 ### Prerequisites
 
-- API key: `1e1db01977msh2f473f1cd5b75d9p12e28ejsnd36679ff359e`
+- API key: `7b5cc0b3dbmsh0be3c06cd09fd82p15b215jsn7cdc2aa45b10`
 
 ### Installation
 
@@ -42,9 +42,14 @@ cd deploy
 ```
 
 
-2. Add your API key in `config.js`:
+2. Add your API key in `API_Key.js`:
 ```javascript
-const API_KEY = '1e1db01977msh2f473f1cd5b75d9p12e28ejsnd36679ff359e';
+
+7b5cc0b3dbmsh0be3c06cd09fd82p15b215jsn7cdc2aa45b10
+
+ headers: {
+        'x-rapidapi-key': 'Add above API key here',
+    },
 
 ```
 
@@ -77,7 +82,7 @@ index.html
 
 ## API Integration
 - External API for hotel and attraction data
-- API key stored in config.js
+- API key stored in API_Key.js
 - Error handling for API requests
 
 
