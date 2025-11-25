@@ -4,562 +4,700 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Search Results - TravelBook</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="config.js"></script>
-    <script src="search-service.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<script src="api-service.js"></script>
+<script src="details-service.js"></script>
+<script src="search-service.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-        }
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+    body {
+        background-color: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+    }
 
-        /* Header Styles */
-        header {
-            background-color: #003580;
-            color: white;
-            padding: 15px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    /* Header Styles */
+    header {
+        background-color: #fff;
+        color: white;
+        padding: 15px 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-decoration: none;
+    }
+    a{
+        text-decoration: none;  
+    }
 
-        .logo a {
-            color: white;
-            text-decoration: none;
-        }
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
 
-        .logo span {
-            color: #0071c2;
-        }
+    .logo a {
+        color: white;
+        text-decoration: none;
+    }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
+    .logo span {
+        color: #0071c2;
+    }
 
-        nav ul li {
-            margin-left: 20px;
-        }
+    nav ul {
+        display: flex;
+        list-style: none;
+    }
 
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
+    nav ul li {
+        margin-left: 20px;
+    }
 
-        nav ul li a:hover {
-            color: #b8d6f3;
-        }
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
 
-        /* Search Section */
-        .search-section {
-            background-color: #003580;
-            padding: 30px 0;
-            color: white;
-        }
+    nav ul li a:hover {
+        color: #b8d6f3;
+    }
 
-        .search-container {
-            background-color: #febb02;
-            border-radius: 5px;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+    /* Search Section */
+    .search-section {
+        background-color: #003580;
+        padding: 30px 0;
+        color: white;
+    }
 
-        .search-title {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 22px;
-        }
+    .search-container {
+        background-color: #febb02;
+        border-radius: 5px;
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
 
-        .search-form {
-            display: flex;
-            gap: 10px;
-        }
+    .search-title {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 22px;
+    }
 
-        .search-input {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 3px;
-            font-size: 16px;
-        }
+    .search-form {
+        display: flex;
+        gap: 10px;
+    }
 
-        .search-btn {
-            background-color: #0071c2;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            padding: 0 25px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
+    .search-input {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 3px;
+        font-size: 16px;
+    }
 
-        .search-btn:hover {
-            background-color: #00487a;
-        }
+    .search-btn {
+        background-color: #0071c2;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        padding: 0 25px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: background-color 0.3s;
+    }
 
-        /* Search Info */
-        .search-info {
-            background: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+    .search-btn:hover {
+        background-color: #00487a;
+    }
 
-        .search-details {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
+    /* Search Info */
+    .search-info {
+        background: white;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    a{
+        color: #00487a;
+    }
 
-        .search-detail {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    .search-details {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
 
-        .search-detail i {
-            color: #0071c2;
-        }
+    .search-detail {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
-        /* Main Content */
+    .search-detail i {
+        color: #0071c2;
+    }
+
+    /* Main Content */
+    .main-content {
+        display: flex;
+        margin: 30px 0;
+        gap: 30px;
+    }
+
+    /* Filters Sidebar */
+    .filters {
+        flex: 0 0 280px;
+        background-color: white;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        height: fit-content;
+        position: sticky;
+        top: 20px;
+    }
+
+    .filter-section {
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .filter-section:last-child {
+        border-bottom: none;
+    }
+
+    .filter-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .filter-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .filter-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .filter-option input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    .filter-option label {
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .star-rating {
+        color: #ffb700;
+        font-size: 14px;
+    }
+
+    /* Results Section */
+    .results {
+        flex: 1;
+    }
+
+    .results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .results-title {
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .results-count {
+        color: #666;
+        font-size: 16px;
+        margin-top: 5px;
+    }
+
+    .sort-options {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .sort-select {
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: white;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .map-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: #0071c2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.3s;
+    }
+
+    .map-toggle:hover {
+        background-color: #00487a;
+    }
+
+    /* Hotel List - UPDATED SECTION */
+    .hotel-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .hotel-card {
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        display: flex;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .hotel-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    .hotel-image {
+        flex: 0 0 300px;
+        height: 220px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hotel-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+
+    .hotel-card:hover .hotel-image img {
+        transform: scale(1.05);
+    }
+
+    /* UPDATED: Hotel info section to match your JS output */
+    .hotel-info {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .hotel-name {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #0071c2;
+    }
+
+    .hotel-location {
+        color: #666;
+        margin-bottom: 10px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .hotel-rating {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .rating-badge {
+        background-color: #003580;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .rating-text {
+        font-size: 14px;
+        color: #666;
+        font-weight: 500;
+    }
+
+    .review-count {
+        font-size: 14px;
+        color: #666;
+    }
+
+    /* UPDATED: Hotel pricing section to match your JS output */
+    .hotel-pricing {
+        flex: 0 0 200px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-left: 1px solid #eee;
+    }
+
+    .price-container {
+        text-align: right;
+    }
+
+    .price-label {
+        display: block;
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .price {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    /* UPDATED: View button to match your JS output */
+    .view-btn {
+        background-color: #0071c2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 12px 20px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background-color 0.3s;
+        font-size: 14px;
+        width: 100%;
+    }
+
+    .view-btn:hover {
+        background-color: #00487a;
+    }
+
+    /* Keep existing styles for backward compatibility */
+    .hotel-details {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .hotel-features {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+    }
+
+    .feature {
+        background-color: #f0f8ff;
+        color: #0071c2;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .hotel-description {
+        color: #555;
+        margin-bottom: 15px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .rating-score {
+        background-color: #003580;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .hotel-price {
+        text-align: right;
+    }
+
+    .price-amount {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .price-period {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .tax-info {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .availability-btn {
+        background-color: #0071c2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 12px 20px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background-color 0.3s;
+        font-size: 14px;
+    }
+
+    .availability-btn:hover {
+        background-color: #00487a;
+    }
+
+    /* Loading States - UPDATED */
+    .loading-container {
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .loading-spinner {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        border-top-color: #0071c2;
+        animation: spin 1s ease-in-out infinite;
+        margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .error-container {
+        text-align: center;
+        padding: 40px 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .error-message {
+        color: #e74c3c;
+        margin-bottom: 20px;
+        font-size: 18px;
+        text-align: center;
+        padding: 40px 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .error-message i {
+        font-size: 48px;
+        margin-bottom: 15px;
+        color: #e74c3c;
+    }
+
+    .error-message h3 {
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .error-message p {
+        margin-bottom: 20px;
+        color: #666;
+    }
+
+    .retry-btn {
+        background-color: #0071c2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 40px 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        color: #666;
+        font-size: 18px;
+    }
+
+    /* Footer */
+    footer {
+        background-color: #d6d6d6;
+        color: white;
+        padding: 40px 0 20px;
+        margin-top: 50px;
+        color: black !important;
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+
+    .footer-section {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .footer-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 8px;
+    }
+
+    .footer-links a {
+        color: #b8d6f3;
+        text-decoration: none;
+        transition: color 0.3s;
+        font-size: 14px;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    .copyright {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #00487a;
+        color: #b8d6f3;
+        font-size: 14px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
         .main-content {
-            display: flex;
-            margin: 30px 0;
-            gap: 30px;
+            flex-direction: column;
         }
-
-        /* Filters Sidebar */
+        
         .filters {
-            flex: 0 0 280px;
-            background-color: white;
-            border-radius: 5px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            height: fit-content;
-            position: sticky;
-            top: 20px;
-        }
-
-        .filter-section {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .filter-section:last-child {
-            border-bottom: none;
-        }
-
-        .filter-title {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #333;
-            font-weight: 600;
-        }
-
-        .filter-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .filter-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .filter-option input {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .filter-option label {
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .star-rating {
-            color: #ffb700;
-            font-size: 14px;
-        }
-
-        /* Results Section */
-        .results {
             flex: 1;
+            position: static;
         }
+    }
 
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .results-title {
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .results-count {
-            color: #666;
-            font-size: 16px;
-            margin-top: 5px;
-        }
-
-        .sort-options {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .sort-select {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: white;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .map-toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background-color: #0071c2;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
-
-        .map-toggle:hover {
-            background-color: #00487a;
-        }
-
-        /* Hotel List */
-        .hotel-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
+    @media (max-width: 768px) {
         .hotel-card {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            display: flex;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .hotel-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
-
-        .hotel-image {
-            flex: 0 0 300px;
-            height: 220px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hotel-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .hotel-card:hover .hotel-image img {
-            transform: scale(1.05);
-        }
-
-        .hotel-details {
-            flex: 1;
-            padding: 20px;
-            display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
-
-        .hotel-name {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #0071c2;
-        }
-
-        .hotel-location {
-            color: #666;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .hotel-features {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .feature {
-            background-color: #f0f8ff;
-            color: #0071c2;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .hotel-description {
-            color: #555;
-            margin-bottom: 15px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .hotel-rating {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .rating-score {
-            background-color: #003580;
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .rating-text {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .hotel-price {
-            text-align: right;
-        }
-
-        .price-amount {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .price-period {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .tax-info {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .availability-btn {
-            background-color: #0071c2;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 12px 20px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s;
-            font-size: 14px;
-        }
-
-        .availability-btn:hover {
-            background-color: #00487a;
-        }
-
-        /* Loading States */
-        .loading-container {
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top-color: #0071c2;
-            animation: spin 1s ease-in-out infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .error-container {
-            text-align: center;
-            padding: 40px 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .error-message {
-            color: #e74c3c;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #003580;
-            color: white;
-            padding: 40px 0 20px;
-            margin-top: 50px;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-
-        .footer-section {
+        
+        .hotel-image {
             flex: 1;
-            min-width: 200px;
+            height: 200px;
         }
+        
+        .hotel-pricing {
+            border-left: none;
+            border-top: 1px solid #eee;
+            flex: 1;
+            align-items: stretch;
+        }
+        
+        .results-header {
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        .search-form {
+            flex-direction: column;
+        }
+    }
 
-        .footer-title {
-            font-size: 18px;
-            margin-bottom: 15px;
-            font-weight: 600;
+    @media (max-width: 480px) {
+        .header-content {
+            flex-direction: column;
+            gap: 15px;
         }
-
-        .footer-links {
-            list-style: none;
+        
+        nav ul {
+            justify-content: center;
+            flex-wrap: wrap;
         }
-
-        .footer-links li {
-            margin-bottom: 8px;
+        
+        .search-details {
+            flex-direction: column;
+            gap: 15px;
         }
-
-        .footer-links a {
-            color: #b8d6f3;
-            text-decoration: none;
-            transition: color 0.3s;
-            font-size: 14px;
+        
+        .hotel-pricing {
+            flex: 0 0 auto;
         }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .copyright {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #00487a;
-            color: #b8d6f3;
-            font-size: 14px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .filters {
-                flex: 1;
-                position: static;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hotel-card {
-                flex-direction: column;
-            }
-            
-            .hotel-image {
-                flex: 1;
-                height: 200px;
-            }
-            
-            .results-header {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
-            }
-            
-            .search-form {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            nav ul {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .search-details {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <!-- Header -->
-   <header>
+ <header>
         <div class="container">
             <div class="header-content">
                 <a href="index.html" class="logo">TravelBook</a>
@@ -735,376 +873,285 @@
     </div>
 
     <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About</h3>
+                    <div class="footer-links">
+                        <a href="#">How TravelBook works</a>
+                        <a href="#">Newsroom</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Investors</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                     
+                </div>
+                <div class="footer-column">
+                    
+                </div>
+                <div class="footer-column">
+                     
+                </div>
+                <div class="footer-column">
+                    
+                </div>
+            </div>
+            <div class="footer-bottom">
+               
+            </div>
+        </div>
+    </footer>
+
    
     <script>
-        // Initialize Search Service
-        const searchService = new SearchService();
-
-        // Global variables
-        let currentHotels = [];
-        let filteredHotels = [];
-        let currentSearchParams = {};
-
-        // Get URL parameters
-        function getUrlParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return {
-                dest_id: urlParams.get('dest_id'),
-                search_type: urlParams.get('search_type') || 'city',
-                destination: urlParams.get('destination'),
-                checkin: urlParams.get('checkin'),
-                checkout: urlParams.get('checkout'),
-                guests: urlParams.get('guests') || '1'
-            };
-        }
-
-        // Format currency
-        function formatCurrency(amount, currency = 'USD') {
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: currency
-            }).format(amount);
-        }
-
-        // Format date
-        function formatDate(dateString) {
-            const options = { month: 'short', day: 'numeric', year: 'numeric' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
-        }
-
-        // Calculate number of nights
-        function calculateNights(checkin, checkout) {
-            const oneDay = 24 * 60 * 60 * 1000;
-            const firstDate = new Date(checkin);
-            const secondDate = new Date(checkout);
-            return Math.round(Math.abs((firstDate - secondDate) / oneDay));
-        }
-
-        // Update search details display
-        function updateSearchDetails(params) {
-            const searchDetails = document.getElementById('search-details');
-            const nights = calculateNights(params.checkin, params.checkout);
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing search...');
             
-            searchDetails.innerHTML = `
-                <div class="search-detail">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span><strong>Destination:</strong> ${params.destination || 'Unknown'}</span>
-                </div>
-                <div class="search-detail">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span><strong>Dates:</strong> ${params.checkin || 'Check-in'} - ${params.checkout || 'Check-out'}</span>
-                </div>
-                <div class="search-detail">
-                    <i class="fas fa-user-friends"></i>
-                    <span><strong>Guests:</strong> ${params.guests || '1'} adult${params.guests > 1 ? 's' : ''}</span>
-                </div>
-                <div class="search-detail">
-                    <i class="fas fa-moon"></i>
-                    <span><strong>Nights:</strong> ${nights}</span>
-                </div>
-            `;
-        }
-
-        // Extract features from accessibility label
-        function extractFeatures(accessibilityLabel) {
-            const features = [];
-            if (accessibilityLabel.includes('Free parking')) features.push('Free parking');
-            if (accessibilityLabel.includes('Free WiFi')) features.push('Free WiFi');
-            if (accessibilityLabel.includes('Swimming Pool')) features.push('Swimming Pool');
-            if (accessibilityLabel.includes('Breakfast included')) features.push('Breakfast included');
-            if (accessibilityLabel.includes('Garden')) features.push('Garden');
-            if (accessibilityLabel.includes('Terrace')) features.push('Terrace');
-            return features.slice(0, 4); // Return max 4 features
-        }
-
-        // Determine property type from name and features
-        function getPropertyType(name, features) {
-            const lowerName = name.toLowerCase();
-            if (lowerName.includes('apartment') || lowerName.includes('apartments')) return 'Apartment';
-            if (lowerName.includes('villa')) return 'Villa';
-            if (lowerName.includes('resort')) return 'Resort';
-            if (lowerName.includes('lodge')) return 'Lodge';
-            if (features.includes('Swimming Pool') && features.includes('Garden')) return 'Resort';
-            return 'Hotel';
-        }
-
-        // Render hotel cards
-        function renderHotels(hotels) {
+            // Check if required elements exist
             const hotelList = document.getElementById('hotel-list');
+            const sortSelect = document.getElementById('sort-select');
+            const resultsCount = document.getElementById('results-count');
+            const resultsTitle = document.getElementById('results-title');
             
-            if (!hotels || hotels.length === 0) {
-                hotelList.innerHTML = `
-                    <div class="error-container">
-                        <h3>No hotels found</h3>
-                        <p>Try adjusting your search criteria or filters.</p>
-                    </div>
-                `;
+            if (!hotelList) {
+                console.error('hotel-list element not found');
                 return;
             }
-
-            const hotelsHtml = hotels.map(hotel => {
-                const property = hotel.property;
-                const price = property.priceBreakdown?.grossPrice?.value || 0;
-                const originalPrice = property.priceBreakdown?.strikethroughPrice?.value;
-                const imageUrl = property.photoUrls && property.photoUrls[0] ? 
-                    property.photoUrls[0] : 
-                    'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-                
-                const nights = calculateNights(currentSearchParams.checkin, currentSearchParams.checkout);
-                const totalPrice = price * nights;
-                
-                // Extract features from accessibility label
-                const features = extractFeatures(hotel.accessibilityLabel || '');
-                const propertyType = getPropertyType(property.name, features);
-                
-                // Get star rating from property class
-                const stars = property.accuratePropertyClass || property.propertyClass || 0;
-                const reviewScore = property.reviewScore || 0;
-                const reviewCount = property.reviewCount || 0;
-                const reviewWord = property.reviewScoreWord || 'Not rated';
-
-                // Generate star rating display
-                const starDisplay = '★'.repeat(stars) + '☆'.repeat(5 - stars);
-
-                return `
-                    <div class="hotel-card">
-                        <div class="hotel-image">
-                            <img src="${imageUrl}" alt="${property.name}" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+            
+            if (!sortSelect) {
+                console.error('sort-select element not found');
+                return;
+            }
+            
+            // Check if API config is loaded
+            if (typeof API_CONFIG === 'undefined' || typeof API_KEY === 'undefined') {
+                console.error('API configuration not loaded. Make sure config.js is included.');
+                hotelList.innerHTML = '<div class="error-message">Configuration error. Please check console.</div>';
+                return;
+            }
+            
+            console.log('API Config loaded:', API_CONFIG);
+            
+            // Initialize SearchService
+            let searchService;
+            try {
+                searchService = new SearchService();
+                console.log('SearchService initialized');
+            } catch (error) {
+                console.error('Error initializing SearchService:', error);
+                hotelList.innerHTML = '<div class="error-message">Failed to initialize search service.</div>';
+                return;
+            }
+            
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const destination = urlParams.get('destination');
+            const destId = urlParams.get('dest_id');
+            const checkIn = urlParams.get('check_in');
+            const checkOut = urlParams.get('check_out');
+            const guests = urlParams.get('guests');
+            
+            console.log('Search params:', { destination, destId, checkIn, checkOut, guests });
+            
+            // Update page title
+            if (resultsTitle && destination) {
+                resultsTitle.textContent = `Hotels in ${destination}`;
+            }
+            
+            let allHotels = [];
+            
+            // Fetch hotels
+            async function fetchHotels() {
+                try {
+                    if (!destId) {
+                        throw new Error('Destination ID is required');
+                    }
+                    
+                    hotelList.innerHTML = '<div class="loading-container"><div class="loading-spinner"></div><p>Searching for hotels...</p></div>';
+                    
+                    const searchParams = {
+                        arrival_date: checkIn || '2025-12-20',
+                        departure_date: checkOut || '2025-12-25',
+                        adults: parseInt(guests) || 1
+                    };
+                    
+                    console.log('Fetching hotels with params:', searchParams);
+                    
+                    const response = await searchService.searchHotels(destId, searchParams);
+                    console.log('Search response:', response);
+                    
+                    if (response && response.data && response.data.hotels) {
+                        allHotels = response.data.hotels;
+                        displayHotels(allHotels);
+                        
+                        if (resultsCount) {
+                            resultsCount.textContent = `${allHotels.length} properties found`;
+                        }
+                    } else {
+                        throw new Error('No hotels found in response');
+                    }
+                } catch (error) {
+                    console.error('Error fetching hotels:', error);
+                    hotelList.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Unable to load hotels</h3>
+                            <p>${error.message}</p>
+                            <button onclick="location.reload()" class="retry-btn">Try Again</button>
                         </div>
-                        <div class="hotel-details">
-                            <div>
-                                <h2 class="hotel-name">${property.name}</h2>
-                                <p class="hotel-location">
-                                    <i class="fas fa-map-marker-alt"></i> ${property.wishlistName || 'Location not available'}
-                                </p>
-                                <div class="hotel-features">
-                                    <span class="feature">${propertyType}</span>
-                                    ${features.map(feature => `<span class="feature">${feature}</span>`).join('')}
+                    `;
+                }
+            }
+            
+            // Display hotels
+            function displayHotels(hotels) {
+                if (!hotels || hotels.length === 0) {
+                    hotelList.innerHTML = '<div class="no-results">No hotels found matching your criteria.</div>';
+                    return;
+                }
+                
+                hotelList.innerHTML = hotels.map(hotel => {
+                    const prop = hotel.property || hotel;
+                    const price = prop.priceBreakdown?.grossPrice?.value || 0;
+                    const currency = prop.priceBreakdown?.grossPrice?.currency || 'USD';
+                    const reviewScore = prop.reviewScore || 0;
+                    const reviewWord = prop.reviewScoreWord || 'Good';
+                    const reviewCount = prop.reviewCount || 0;
+                    const photoUrl = prop.photoUrls?.[0] || 'placeholder.jpg';
+                    
+                    return `
+                        <div class="hotel-card" data-hotel-id="${prop.id || hotel.hotel_id}">
+                            <div class="hotel-image">
+                                <img src="${photoUrl}" alt="${prop.name}" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+                            </div>
+                            <div class="hotel-info">
+                                <h3 class="hotel-name">${prop.name}</h3>
+                                <div class="hotel-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    ${prop.wishlistName || destination || 'Location'}
                                 </div>
-                                <p class="hotel-description">
-                                    ${hotel.accessibilityLabel ? hotel.accessibilityLabel.split('.')[0] + '.' : 'Comfortable accommodation with great amenities.'}
-                                </p>
                                 <div class="hotel-rating">
-                                    ${stars > 0 ? `<span class="star-rating">${starDisplay}</span>` : ''}
-                                    <span class="rating-score">${reviewScore.toFixed(1)}</span>
-                                    <span class="rating-text">${reviewWord} • ${reviewCount} reviews</span>
+                                    <span class="rating-badge">${reviewScore.toFixed(1)}</span>
+                                    <span class="rating-text">${reviewWord}</span>
+                                    <span class="review-count">(${reviewCount} reviews)</span>
                                 </div>
                             </div>
-                            <div class="hotel-price">
-                                ${originalPrice ? `
-                                    <div style="text-decoration: line-through; color: #999; font-size: 14px;">
-                                        ${formatCurrency(originalPrice)}
-                                    </div>
-                                ` : ''}
-                                <div class="price-amount">${formatCurrency(price)}</div>
-                                <div class="price-period">per night</div>
-                                <div class="tax-info">+ taxes & fees</div>
-                                <button class="availability-btn" onclick="viewDetails(${hotel.hotel_id})">
+                            <div class="hotel-pricing">
+                                <div class="price-container">
+                                    <span class="price-label">Price per night</span>
+                                    <span class="price">${currency} ${price.toFixed(2)}</span>
+                                </div>
+                                <button class="view-btn" onclick="viewHotel('${prop.id || hotel.hotel_id}')">
                                     View Details
                                 </button>
                             </div>
                         </div>
-                    </div>
-                `;
-            }).join('');
-
-            hotelList.innerHTML = hotelsHtml;
-        }
-
-        // View hotel details
-        function viewDetails(hotelId) {
-            window.location.href = `Details.html?hotel_id=${hotelId}&dest_id=${currentSearchParams.dest_id}&checkin=${currentSearchParams.checkin}&checkout=${currentSearchParams.checkout}&guests=${currentSearchParams.guests}`;
-        }
-
-        // Apply filters
-        function applyFilters() {
-            const selectedRatings = Array.from(document.querySelectorAll('input[data-rating]:checked')).map(el => parseInt(el.dataset.rating));
-            const selectedTypes = Array.from(document.querySelectorAll('input[data-type]:checked')).map(el => el.dataset.type);
-            const selectedScores = Array.from(document.querySelectorAll('input[data-score]:checked')).map(el => parseInt(el.dataset.score));
-            const selectedPrices = Array.from(document.querySelectorAll('input[data-price]:checked')).map(el => el.dataset.price);
-
-            filteredHotels = currentHotels.filter(hotel => {
-                const property = hotel.property;
-                const stars = property.accuratePropertyClass || property.propertyClass || 0;
-                const score = property.reviewScore || 0;
-                const price = property.priceBreakdown?.grossPrice?.value || 0;
-                const type = getPropertyType(property.name, extractFeatures(hotel.accessibilityLabel || '')).toLowerCase();
-
-                // Rating filter
-                if (selectedRatings.length > 0 && !selectedRatings.includes(stars)) return false;
-
-                // Type filter
-                if (selectedTypes.length > 0 && !selectedTypes.some(t => type.includes(t))) return false;
-
-                // Score filter
-                if (selectedScores.length > 0 && !selectedScores.some(s => score >= s)) return false;
-
-                // Price filter
-                if (selectedPrices.length > 0) {
-                    const priceInRange = selectedPrices.some(range => {
-                        const [min, max] = range.split('-').map(Number);
-                        return price >= min && price <= max;
-                    });
-                    if (!priceInRange) return false;
-                }
-
-                return true;
+                    `;
+                }).join('');
+            }
+            
+            // Sort hotels
+            if (sortSelect) {
+                sortSelect.addEventListener('change', function() {
+                    const sortValue = this.value;
+                    let sortedHotels = [...allHotels];
+                    
+                    switch(sortValue) {
+                        case 'price_asc':
+                            sortedHotels.sort((a, b) => 
+                                (a.property?.priceBreakdown?.grossPrice?.value || 0) - 
+                                (b.property?.priceBreakdown?.grossPrice?.value || 0)
+                            );
+                            break;
+                        case 'price_desc':
+                            sortedHotels.sort((a, b) => 
+                                (b.property?.priceBreakdown?.grossPrice?.value || 0) - 
+                                (a.property?.priceBreakdown?.grossPrice?.value || 0)
+                            );
+                            break;
+                        case 'rating_desc':
+                            sortedHotels.sort((a, b) => 
+                                (b.property?.reviewScore || 0) - (a.property?.reviewScore || 0)
+                            );
+                            break;
+                    }
+                    
+                    displayHotels(sortedHotels);
+                });
+            }
+            
+            // Initialize filters
+            const filterCheckboxes = document.querySelectorAll('.filter-option input[type="checkbox"]');
+            filterCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', applyFilters);
             });
-
-            updateResultsCount();
-            renderHotels(filteredHotels);
-        }
-
-        // Sort hotels
-        function sortHotels(sortBy) {
-            const hotels = filteredHotels.length > 0 ? filteredHotels : currentHotels;
-
-            switch (sortBy) {
-                case 'price_asc':
-                    hotels.sort((a, b) => (a.property.priceBreakdown?.grossPrice?.value || 0) - (b.property.priceBreakdown?.grossPrice?.value || 0));
-                    break;
-                case 'price_desc':
-                    hotels.sort((a, b) => (b.property.priceBreakdown?.grossPrice?.value || 0) - (a.property.priceBreakdown?.grossPrice?.value || 0));
-                    break;
-                case 'rating_desc':
-                    hotels.sort((a, b) => (b.property.reviewScore || 0) - (a.property.reviewScore || 0));
-                    break;
-                case 'stars_desc':
-                    hotels.sort((a, b) => {
-                        const aStars = a.property.accuratePropertyClass || a.property.propertyClass || 0;
-                        const bStars = b.property.accuratePropertyClass || b.property.propertyClass || 0;
-                        return bStars - aStars;
+            
+            function applyFilters() {
+                let filteredHotels = [...allHotels];
+                
+                // Filter by rating
+                const selectedRatings = Array.from(document.querySelectorAll('[data-rating]:checked'))
+                    .map(cb => parseInt(cb.dataset.rating));
+                
+                if (selectedRatings.length > 0) {
+                    filteredHotels = filteredHotels.filter(hotel => 
+                        selectedRatings.includes(Math.floor(hotel.property?.reviewScore || 0))
+                    );
+                }
+                
+                // Filter by review score
+                const selectedScores = Array.from(document.querySelectorAll('[data-score]:checked'))
+                    .map(cb => parseInt(cb.dataset.score));
+                
+                if (selectedScores.length > 0) {
+                    filteredHotels = filteredHotels.filter(hotel => {
+                        const score = hotel.property?.reviewScore || 0;
+                        return selectedScores.some(minScore => score >= minScore);
                     });
-                    break;
-                case 'stars_asc':
-                    hotels.sort((a, b) => {
-                        const aStars = a.property.accuratePropertyClass || a.property.propertyClass || 0;
-                        const bStars = b.property.accuratePropertyClass || b.property.propertyClass || 0;
-                        return aStars - bStars;
+                }
+                
+                // Filter by price range
+                const selectedPrices = Array.from(document.querySelectorAll('[data-price]:checked'))
+                    .map(cb => cb.dataset.price);
+                
+                if (selectedPrices.length > 0) {
+                    filteredHotels = filteredHotels.filter(hotel => {
+                        const price = hotel.property?.priceBreakdown?.grossPrice?.value || 0;
+                        return selectedPrices.some(range => {
+                            const [min, max] = range.split('-').map(Number);
+                            return price >= min && price <= max;
+                        });
                     });
-                    break;
-                default:
-                    // Recommended - keep original order
-                    break;
+                }
+                
+                displayHotels(filteredHotels);
+                
+                if (resultsCount) {
+                    resultsCount.textContent = `${filteredHotels.length} of ${allHotels.length} properties`;
+                }
             }
-
-            renderHotels(hotels);
+            
+            // Start fetching hotels
+            fetchHotels();
+        });
+        
+        // Global function to view hotel details
+        function viewHotel(hotelId) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const checkIn = urlParams.get('check_in');
+            const checkOut = urlParams.get('check_out');
+            const guests = urlParams.get('guests');
+            
+            const detailsUrl = `hotel-details.html?hotel_id=${hotelId}&check_in=${checkIn}&check_out=${checkOut}&guests=${guests}`;
+            window.location.href = detailsUrl;
         }
-
-        // Update results count
-        function updateResultsCount() {
-            const displayCount = filteredHotels.length > 0 ? filteredHotels.length : currentHotels.length;
-            document.getElementById('results-count').textContent = `${displayCount} properties found`;
-        }
-
-        // Initialize page
-      // In search-results.html script section, update the initPage function:
-
-// Initialize page
-
-// Initialize page
-async function initPage() {
-    currentSearchParams = getUrlParams();
-    updateSearchDetails(currentSearchParams);
-    
-    // Set the destination in the search box
-    if (currentSearchParams.destination) {
-        document.getElementById('destination-search').value = currentSearchParams.destination;
-    }
-
-    try {
-        document.getElementById('results-title').textContent = `Hotels in ${currentSearchParams.destination || 'Your Destination'}`;
-        
-        // Log the parameters for debugging
-        console.log('Search parameters:', currentSearchParams);
-        
-        // Prepare search parameters for hotels API
-        const searchParams = {
-            search_type: 'city', // Always use 'city' for hotel searches
-            arrival_date: formatDateForAPI(currentSearchParams.checkin) || '2025-12-20',
-            departure_date: formatDateForAPI(currentSearchParams.checkout) || '2025-12-25',
-            adults: currentSearchParams.guests || 1,
-            children_age: '0,17',
-            room_qty: 1,
-            page_number: 1,
-            units: 'metric',
-            temperature_unit: 'c',
-            languagecode: 'en-us',
-            currency_code: 'USD'
-        };
-
-        console.log('Searching hotels with params:', {
-            dest_id: currentSearchParams.dest_id,
-            ...searchParams
-        });
-
-        const response = await searchService.searchHotels(currentSearchParams.dest_id, searchParams);
-        
-        console.log('API Response:', response);
-        
-        // Extract hotels from the response
-        if (response && response.data && response.data.hotels) {
-            currentHotels = response.data.hotels;
-            filteredHotels = [...currentHotels];
-            updateResultsCount();
-            renderHotels(currentHotels);
-        } else {
-            console.error('Invalid response structure:', response);
-            throw new Error('No hotels data found in response');
-        }
-    } catch (error) {
-        console.error('Error loading hotels:', error);
-        document.getElementById('hotel-list').innerHTML = `
-            <div class="error-container">
-                <p class="error-message">Error loading hotels. Please try again later.</p>
-                <p style="color: #666; margin-top: 10px; font-size: 14px;">
-                    ${error.message}<br>
-                    Make sure you selected a valid destination with hotels.
-                </p>
-                <button onclick="window.location.href='index.html'" 
-                        style="margin-top: 15px; padding: 10px 20px; background: #0071c2; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                    Back to Search
-                </button>
-            </div>
-        `;
-    }
-}
-
-// Helper function to format dates for API
-function formatDateForAPI(dateString) {
-    if (!dateString) return null;
-    
-    try {
-        const date = new Date(dateString);
-        return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-    } catch (error) {
-        console.error('Error formatting date:', error);
-        return null;
-    }
-}
-        // Event listeners
-        document.getElementById('sort-select').addEventListener('change', (e) => {
-            sortHotels(e.target.value);
-        });
-
-        document.querySelectorAll('input[data-rating], input[data-type], input[data-score], input[data-price]').forEach(checkbox => {
-            checkbox.addEventListener('change', applyFilters);
-        });
-
-        document.getElementById('map-toggle').addEventListener('click', () => {
-            alert('Map view feature coming soon!');
-        });
-
-        document.getElementById('search-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const destination = document.getElementById('destination-search').value;
-            if (destination) {
-                window.location.href = `search-results.html?destination=${encodeURIComponent(destination)}&search_type=city`;
-            }
-        });
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', initPage);
     </script>
 </body>
 </html>
+
+
+
+
