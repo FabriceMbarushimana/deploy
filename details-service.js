@@ -1,19 +1,7 @@
 // details-service.js - API Service for Hotel Details Page
 class DetailsService {
     constructor() {
-        // Use global API_CONFIG from config.js
-        if (typeof API_CONFIG === 'undefined' || typeof API_KEY === 'undefined' || typeof API_HOST === 'undefined') {
-            console.error('API configuration not found. Make sure config.js is loaded before this script.');
-        }
-        
-        this.config = typeof API_CONFIG !== 'undefined' ? API_CONFIG : {
-            baseUrl: 'https://booking-com15.p.rapidapi.com/api/v1/hotels',
-            headers: {
-                'x-rapidapi-key': typeof API_KEY !== 'undefined' ? API_KEY : '',
-                'x-rapidapi-host': typeof API_HOST !== 'undefined' ? API_HOST : 'booking-com15.p.rapidapi.com'
-            },
-            cacheExpiry: 24 * 60 * 60 * 1000
-        };
+        this.config = this.getApiConfig();
         
         this.endpoints = typeof DETAILS_ENDPOINTS !== 'undefined' ? DETAILS_ENDPOINTS : {
             hotelDetails: 'getHotelDetails',
@@ -23,6 +11,66 @@ class DetailsService {
             reviews: 'getHotelReviewScores',
             photos: 'getHotelPhotos',
             policies: 'getHotelPolicies'
+        };
+    }
+
+    // Get API configuration from localStorage or fallback
+    getApiConfig() {
+        try {
+            // Try to get from localStorage first
+            const storedConfig = localStorage.getItem('api_config');
+            if (storedConfig) {
+                return JSON.parse(storedConfig);
+            }
+            
+            // Try to use global API_CONFIG
+            if (typeof API_CONFIG !== 'undefined') {
+                return API_CONFIG;
+            }
+            
+            // Fallback
+            console.warn('API configuration not found. Using fallback configuration.');
+            return {
+                baseUrl: 'https://booking-com15.p.rapidapi.com/api/v1/hotels',
+                headers: {
+                    'x-rapidapi-key': this.getStoredApiKey(),
+                    'x-rapidapi-host': this.getStoredApiHost()
+                },
+                cacheExpiry: 24 * 60 * 60 * 1000
+            };
+        } catch (error) {
+            console.error('Error loading API config:', error);
+            return this.getFallbackConfig();
+        }
+    }
+
+    // Get stored API key from localStorage
+    getStoredApiKey() {
+        try {
+            return localStorage.getItem('rapidapi_key') || '';
+        } catch (error) {
+            return '';
+        }
+    }
+
+    // Get stored API host from localStorage
+    getStoredApiHost() {
+        try {
+            return localStorage.getItem('rapidapi_host') || 'booking-com15.p.rapidapi.com';
+        } catch (error) {
+            return 'booking-com15.p.rapidapi.com';
+        }
+    }
+
+    // Fallback configuration
+    getFallbackConfig() {
+        return {
+            baseUrl: 'https://booking-com15.p.rapidapi.com/api/v1/hotels',
+            headers: {
+                'x-rapidapi-key': this.getStoredApiKey(),
+                'x-rapidapi-host': this.getStoredApiHost()
+            },
+            cacheExpiry: 24 * 60 * 60 * 1000
         };
     }
 
