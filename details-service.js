@@ -1,11 +1,16 @@
 // details-service.js - API Service for Hotel Details Page
 class DetailsService {
     constructor() {
+        // Use global API_CONFIG from config.js
+        if (typeof API_CONFIG === 'undefined' || typeof API_KEY === 'undefined' || typeof API_HOST === 'undefined') {
+            console.error('API configuration not found. Make sure config.js is loaded before this script.');
+        }
+        
         this.config = typeof API_CONFIG !== 'undefined' ? API_CONFIG : {
             baseUrl: 'https://booking-com15.p.rapidapi.com/api/v1/hotels',
             headers: {
-                'x-rapidapi-key': '1e1db01977msh2f473f1cd5b75d9p12e28ejsnd36679ff359e',
-                'x-rapidapi-host': 'booking-com15.p.rapidapi.com'
+                'x-rapidapi-key': typeof API_KEY !== 'undefined' ? API_KEY : '',
+                'x-rapidapi-host': typeof API_HOST !== 'undefined' ? API_HOST : 'booking-com15.p.rapidapi.com'
             },
             cacheExpiry: 24 * 60 * 60 * 1000
         };
