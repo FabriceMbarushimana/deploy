@@ -1,18 +1,4 @@
-// config.js - Centralized API Configuration
-
-// API Credentials
-const API_KEY = ' ';
-const API_HOST = 'booking-com15.p.rapidapi.com';
-
-// API Configuration
-const API_CONFIG = {
-    baseUrl: 'https://booking-com15.p.rapidapi.com/api/v1/hotels',
-    headers: {
-        'x-rapidapi-key': API_KEY,
-        'x-rapidapi-host': API_HOST
-    },
-    cacheExpiry: 24 * 60 * 60 * 1000 // 24 hours in milliseconds
-};
+// config.js - API Configuration for Details Page
 
 // API Endpoints for Details Page
 const DETAILS_ENDPOINTS = {
@@ -29,4 +15,14 @@ const DETAILS_ENDPOINTS = {
 const HOMEPAGE_ENDPOINTS = {
     searchDestination: 'searchDestination',
     searchHotels: 'searchHotels'
+};
+
+const API_CONFIG = {
+    BASE_URL: 'https://booking-com.p.rapidapi.com',
+    ENDPOINTS: {
+        SEARCH: '/v1/hotels/search',
+        DETAILS: '/v1/hotels/data',
+        PHOTOS: '/v1/hotels/photos',
+        LOCATIONS: '/v1/hotels/locations'
+    }
 };
